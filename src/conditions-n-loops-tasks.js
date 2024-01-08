@@ -21,8 +21,11 @@
  *  0  => true
  *  -5 => false
  */
-function isPositive(/* number */) {
-  throw new Error('Not implemented');
+function isPositive(number) {
+  if (number >= 0) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -38,8 +41,14 @@ function isPositive(/* number */) {
  *  -5, 0, 5      => 5
  *  -0.1, 0, 0.2  => 0.2
  */
-function getMaxNumber(/* a, b, c */) {
-  throw new Error('Not implemented');
+function getMaxNumber(...arg) {
+  let maxNum = 0;
+  for (let i = 0; i < arg.length; i += 1) {
+    if (arg[i] > maxNum) {
+      maxNum = arg[i];
+    }
+  }
+  return maxNum;
 }
 
 /**
@@ -60,10 +69,30 @@ function getMaxNumber(/* a, b, c */) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
-function canQueenCaptureKing(/* queen, king */) {
-  throw new Error('Not implemented');
-}
+function canQueenCaptureKing(queen, king) {
+  const queenCoord = queen;
+  const kingCoord = king;
 
+  if (queenCoord.x === kingCoord.x || queenCoord.y === kingCoord.y) {
+    return true;
+  }
+
+  for (let i = 1; i < 8; i += 1) {
+    if (kingCoord.x === queenCoord.x + i && kingCoord.y === queenCoord.y + i) {
+      return true;
+    }
+    if (kingCoord.x === queenCoord.x - i && kingCoord.y === queenCoord.y - i) {
+      return true;
+    }
+    if (kingCoord.x === queenCoord.x + i && kingCoord.y === queenCoord.y - i) {
+      return true;
+    }
+    if (kingCoord.x === queenCoord.x - i && kingCoord.y === queenCoord.y + i) {
+      return true;
+    }
+  }
+  return false;
+}
 /**
  * Determines whether a triangle is isosceles based on its side lengths.
  * In this task, the use of methods of the String and Array classes is not allowed.
@@ -82,10 +111,14 @@ function canQueenCaptureKing(/* queen, king */) {
  *  2, 2, 5   => false
  *  3, 0, 3   => false
  */
-function isIsoscelesTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
-}
+function isIsoscelesTriangle(a, b, c) {
+  if (a === 0 || b === 0 || c === 0) return false;
+  if (a === b) return a + b > c;
+  if (a === c) return a + c > b;
+  if (b === c) return b + c > a;
 
+  return false;
+}
 /**
  * Converts a number to Roman numerals. The number will be between 1 and 39.
  * In this task, the use of methods of the String and Array classes is not allowed.
@@ -100,10 +133,36 @@ function isIsoscelesTriangle(/* a, b, c */) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  const romanNumerals = {
+    1: 'I',
+    2: 'II',
+    3: 'III',
+    4: 'IV',
+    5: 'V',
+    6: 'VI',
+    7: 'VII',
+    8: 'VIII',
+    9: 'IX',
+    10: 'X',
+    20: 'XX',
+    30: 'XXX',
+  };
+  if (num <= 10 || num === 20 || num === 30) return romanNumerals[+num];
+  if (num > 10 && num < 20) {
+    const n = (10 - num) * -1;
+    return `X${romanNumerals[n]}`;
+  }
+  if (num > 20 && num < 30) {
+    const n = (20 - num) * -1;
+    return `XX${romanNumerals[n]}`;
+  }
+  if (num > 30) {
+    const n = (30 - num) * -1;
+    return `XXX${romanNumerals[n]}`;
+  }
+  return num;
 }
-
 /**
  * Converts a number to a string, replacing digits with words.
  * In this task, the use of methods of the String and Array classes is not allowed.
@@ -119,10 +178,45 @@ function convertToRomanNumerals(/* num */) {
  *  '10,5'    => 'one zero point five'
  *  '1950.2'  => 'one nine five zero point two'
  */
-function convertNumberToString(/* numberStr */) {
-  throw new Error('Not implemented');
+function convertNumberToString(numberStr) {
+  function digitToWord(digit) {
+    switch (digit) {
+      case '1':
+        return 'one';
+      case '2':
+        return 'two';
+      case '3':
+        return 'three';
+      case '4':
+        return 'four';
+      case '5':
+        return 'five';
+      case '6':
+        return 'six';
+      case '7':
+        return 'seven';
+      case '8':
+        return 'eight';
+      case '9':
+        return 'nine';
+      case '0':
+        return 'zero';
+      case '-':
+        return 'minus';
+      case '.':
+        return 'point';
+      case ',':
+        return 'point';
+      default:
+        return digit;
+    }
+  }
+  let numWords = digitToWord(numberStr[0]);
+  for (let i = 1; i < numberStr.length; i += 1) {
+    numWords = `${numWords} ${digitToWord(numberStr[i])}`;
+  }
+  return numWords;
 }
-
 /**
  * Determines whether a string is a palindrome.
  * In this task, the use of methods of the String and Array classes is not allowed.
